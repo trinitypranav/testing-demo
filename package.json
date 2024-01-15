@@ -1,0 +1,14 @@
+{
+  "name": "testing-demo",
+  "version": "1.0.0",
+  "description": "unit tests, integration tests using Jest",
+  "main": "db.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "Pranav Jadhav",
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
+}
