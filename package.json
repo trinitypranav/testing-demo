@@ -4,7 +4,7 @@
   "description": "unit tests, integration tests using Jest",
   "main": "db.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest --watchAll"
   },
   "author": "Pranav Jadhav",
   "license": "ISC",
