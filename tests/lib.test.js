@@ -1,4 +1,6 @@
 const lib = require("../lib");
+const db = require("../db");
+const mail = require("../mail");
 
 // Number of unit tests for a function should be greater than or equal to number of execution paths in that function
 // we are describing how 'absolute' function should work. Group related tests using 'describe()'
@@ -94,5 +96,40 @@ describe("registerUser", () => {
     const result = lib.registerUser("pranav");
     expect(result).toMatchObject({ username: "pranav" });
     expect(result.id).toBeGreaterThan(0);
+  });
+});
+
+// mocking db.getCustomerFromMongoDB function for unit test
+describe("applyDiscount", () => {
+  it("should apply 10% discount on order price if customer has 10+ points", () => {
+    //mocking getCustomerFromMongoDB function
+    db.getCustomerFromMongoDB = function (customerId) {
+      console.log("getting data from fake/ mock function");
+      return { customerId: customerId, points: 15 };
+    };
+
+    const order = { customerId: 1, price: 100 };
+    lib.applyDiscount(order);
+    expect(order.price).toBe(90);
+  });
+});
+
+// mocking functions using jest.fn()
+describe("notifyCustomer", () => {
+  it("should send message on the customer's email", () => {
+    // mocking functions which are called internally by notifyCustomer function
+    db.getCustomerFromMongoDB = jest
+      .fn()
+      .mockReturnValue({ emailId: "a", message: "..." });
+
+    mail.send = jest.fn(); // returns a function with node code
+
+    // calling actual function to test
+    lib.notifyCustomer({ customerId: 1 });
+
+    // assertions
+    expect(mail.send).toHaveBeenCalled();
+    expect(mail.send.mock.calls[0][0]).toBe("a"); // mail.send.mock.calls[0] - returns an array of args
+    expect(mail.send.mock.calls[0][1]).toMatch(/order/);
   });
 });
