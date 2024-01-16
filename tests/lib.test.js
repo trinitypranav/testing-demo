@@ -41,3 +41,28 @@ describe("greet", () => {
     expect(result).toContain("pranav");
   });
 });
+
+// getCurrencies returns an array of 3 strings
+describe("getCurrencies", () => {
+  it("should return supported currencies", () => {
+    const result = lib.getCurrencies();
+
+    //Too general tests - almost useless tests in this case
+    expect(result).toBeDefined();
+    expect(result).not.toBeNull();
+
+    // Too specific tests - if order changes or array updates, test will break
+    expect(result[0]).toBe("USD");
+    expect(result[1]).toBe("AUD");
+    expect(result[2]).toBe("EUR");
+    expect(result.length).toBe(3);
+
+    // proper way
+    expect(result).toContain("USD"); // array should contain USD. Doesn't matter at what index and length of the array, etc
+    expect(result).toContain("AUD");
+    expect(result).toContain("EUR");
+
+    // Ideal way - as long as result includes values in arrayContaining, tests will pass
+    expect(result).toEqual(expect.arrayContaining(["USD", "EUR", "AUD"]));
+  });
+});
