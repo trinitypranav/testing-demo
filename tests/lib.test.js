@@ -66,3 +66,15 @@ describe("getCurrencies", () => {
     expect(result).toEqual(expect.arrayContaining(["USD", "EUR", "AUD"]));
   });
 });
+
+// getProduct returns an object
+describe("getProduct", () => {
+  it("should return a product object with given id", () => {
+    const result = lib.getProduct(1);
+
+    // expect(result).toBe({ id: 1, price: 10 });// fails as this is a completely new obj in memory (diff refs). Avoid using 'toBe()' for objects
+    expect(result).toEqual({ id: 1, price: 10 }); // exact match i.e. exactly 2 properties should be there
+    expect(result).toMatchObject({ id: 1, price: 10 }); // result might contain 50 properties but we want to check only a few properties. 'id' and 'price' in this case.
+    expect(result).toHaveProperty("id", 1); // make sure to pass correct data type for value otherwise test fails
+  });
+});
