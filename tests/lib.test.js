@@ -78,3 +78,21 @@ describe("getProduct", () => {
     expect(result).toHaveProperty("id", 1); // make sure to pass correct data type for value otherwise test fails
   });
 });
+
+// registerUser returns an exception or object
+describe("registerUser", () => {
+  it("should throw exception for falsy values of username", () => {
+    let args = [null, undefined, 0, "", NaN, false];
+    args.forEach((value) => {
+      expect(() => {
+        lib.registerUser(value);
+      }).toThrow();
+    });
+  });
+
+  it("should return an object for valid username", () => {
+    const result = lib.registerUser("pranav");
+    expect(result).toMatchObject({ username: "pranav" });
+    expect(result.id).toBeGreaterThan(0);
+  });
+});
