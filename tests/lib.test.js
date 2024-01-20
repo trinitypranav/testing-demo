@@ -122,7 +122,7 @@ describe("notifyCustomer", () => {
       .fn()
       .mockReturnValue({ emailId: "a", message: "..." });
 
-    mail.send = jest.fn(); // returns a function with node code
+    mail.send = jest.fn(); // returns a function with empty code
 
     // calling actual function to test
     lib.notifyCustomer({ customerId: 1 });
